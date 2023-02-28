@@ -1,0 +1,36 @@
+def investment_property_calculator():
+    # User inputs
+    property_price = float(input("Enter the property price: $"))
+    rental_income = float(input("Enter the weekly rental income: $"))
+    expenses = float(input("Enter the total weekly expenses: $"))
+    discount_rate = float(input("Enter the discount rate (or what you could otherwise get as a return elsewhere) (as a decimal): "))
+    capital_growth_rate = float(input("Enter the expected average capital growth rate (as a decimal): "))
+    rent_growth_rate = float(input("Enter the expected average rental growth rate (as a decimal): "))
+    holding_period = int(input("Enter the holding period/investment horizon (in years): "))
+    
+    # Calculate rental income growth factor
+    rent_growth_factor = (1 + rent_growth_rate) ** holding_period
+    
+    # Calculate future value of property
+    future_property_value = property_price * (1 + capital_growth_rate) ** holding_period
+    
+    # Calculate net rental income
+    net_rental_income = (rental_income - expenses) * 52
+    
+    # Calculate present value of net rental income
+    present_value_net_rental_income = (net_rental_income * (1 - (1 / (1 + rent_growth_rate) ** holding_period))) / ((discount_rate - rent_growth_rate) * 52)
+    
+    # Calculate present value of future property value
+    present_value_future_property_value = future_property_value / (1 + discount_rate) ** holding_period
+    
+    # Calculate net present value (NPV) of investment
+    net_present_value = present_value_net_rental_income + present_value_future_property_value - property_price
+    
+    # Return NPV and investment decision
+    if net_present_value > 0:
+        return f"The net present value of this investment is ${net_present_value:.2f}. This investment is worth considering as In simple terms, a positive NPV of ${net_present_value:.2f}. means that the investment is expected to generate more cash flows over its lifetime than the initial cost of the investment. In other words, if you invest the initial cost today, the present value of all future cash flows expected from the investment (including any expected expenses) would be ${net_present_value:.2f}. more than the initial cost. Therefore, it is generally considered a good investment with a positive NPV, and it indicates that the investor can expect to earn a positive return on their investment.."
+    else:
+        return f"The net present value of this investment is ${net_present_value:.2f}. This investment is not worth considering.In simple terms, a negative NPV of ${net_present_value:.2f}. means that the investment is expected to generate fewer cash flows over its lifetime than the initial cost of the investment. In other words, if you invest the initial cost today, the present value of all future cash flows expected from the investment (including any expected expenses) would be ${net_present_value:.2f}. less than the initial cost. Therefore, it is generally considered a poor investment with a negative NPV, and it indicates that the investor can expect to earn a negative return on their investment."
+
+# Example usage of the investment property calculator
+print(investment_property_calculator())
